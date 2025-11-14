@@ -1,8 +1,9 @@
 import streamlit as st
 from PIL import Image
-from gtts import gTTS
+import edge_tts
 from deep_translator import GoogleTranslator
 import tempfile
+import asyncio
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -106,16 +107,15 @@ elif option == "Use Camera":
         uploaded_file = captured_image
 
 # -----------------------------------------------
-# 🧩 Helper Functions (gTTS)
+# 🧩 Helper Functions
 # -----------------------------------------------
-def generate_gtts_voice(text, lang="en"):
-    """Generate voice using gTTS and return audio file path."""
-    tts = gTTS(text=text, lang=lang)
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-    tts.save(temp_file.name)
-    return temp_file.name
-
-lang_codes = {"English": "en", "Urdu": "ur", "Sindhi": "en"}  # Sindhi fallback to English
+async def generate_edge_tts_full(text, voice):
+    """Generate full, high-quality voice output."""
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+        output_path = tmp_file.name
+    communicate = edge_tts.Communicate(text, voice)
+    await communicate.save(output_path)
+    return output_path
 
 # -----------------------------------------------
 # 🌿 Main Functionality
@@ -155,6 +155,8 @@ if uploaded_file is not None:
         result_text = st.session_state.analysis_result
         st.markdown("<div class='subheader'>🪴 Plant Information</div>", unsafe_allow_html=True)
 
+        lang_codes = {"English": "en", "Urdu": "ur", "Sindhi": "sd"}
+
         display_text = result_text
         if text_lang != "English":
             try:
@@ -167,14 +169,15 @@ if uploaded_file is not None:
         # 🔊 Voice Output Section
         st.markdown("<div class='subheader'>🔊 Voice Output</div>", unsafe_allow_html=True)
         voice_map = {
-            "English": "en",
-            "Urdu": "ur",
-            "Sindhi": "en"  # fallback to English
+            "English": "en-US-AriaNeural",
+            "Urdu": "ur-PK-AsadNeural",
+            "Sindhi": "ur-PK-AsadNeural"  # best available for Sindhi-like tone
         }
 
         if st.button("▶️ Play Voice"):
             st.success(f"🎙️ Speaking in: {voice_lang}")
             try:
+                voice_name = voice_map.get(voice_lang, "en-US-AriaNeural")
                 paragraph = result_text
 
                 if voice_lang != "English":
@@ -183,7 +186,8 @@ if uploaded_file is not None:
                     except Exception:
                         st.warning("⚠️ Voice translation failed. Using English instead.")
 
-                output_file = generate_gtts_voice(paragraph, lang=voice_map[voice_lang])
+                # 🎧 Full high-quality voice (no small parts)
+                output_file = asyncio.run(generate_edge_tts_full(paragraph, voice_name))
                 with open(output_file, "rb") as audio_file:
                     audio_bytes = audio_file.read()
                 st.audio(audio_bytes, format="audio/mp3")
