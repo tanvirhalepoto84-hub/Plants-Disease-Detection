@@ -1,6 +1,9 @@
-streamlit
-gTTS
-deep-translator
-Pillow
-python-dotenv
-google-generativeai
+import streamlit as st
+from PIL import Image
+import edge_tts
+from deep_translator import GoogleTranslator
+import tempfile
+import asyncio
+import os
+from dotenv import load_dotenv
+import google.generativeai as genais
