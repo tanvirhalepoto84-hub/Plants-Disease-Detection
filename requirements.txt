@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-import edge_tts
+from gtts import gTTS
 from deep_translator import GoogleTranslator
 import tempfile
 import asyncio
