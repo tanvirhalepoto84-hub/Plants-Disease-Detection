@@ -1,0 +1,11 @@
+Disease (Potential),Scientific Name (Potential),Plant Name,Cause,Solution
+apple-black,Botryosphaeria obtusa,Apple (Saib),Fungal (Phaphund),"Prune affected branches. Clean fallen fruits and leaves. Spray appropriate fungicides (e.g., captan or mancozeb)."
+applee-rust,Gymnosporangium juniperi-virginianae,Apple (Saib),Fungal (Phaphund),"Remove nearby juniper plants if possible. Plant disease-resistant varieties. Spray fungicides (e.g., myclobutanil) at bloom."
+apple-healthy,N/A,Apple (Saib),N/A (Sehatmand),"The plant is healthy. Keep it healthy by providing proper water, nutrients, and sunlight."
+apple-scrab,Venturia inaequalis,Apple (Saib),Fungal (Phaphund),Destroy fallen leaves. Choose disease-resistant varieties. Spray appropriate fungicides.
+cherry-healthy,N/A,Cherry,N/A (Sehatmand),The plant is healthy. Continue proper care to prevent diseases.
+cherry--powedry-mildew,Podosphaera clandestina,Cherry,Fungal (Phaphund),Ensure air circulation between plants. Prune affected parts. Use sulfur or potassium bicarbonate-based fungicides.
+corn-common-rust,Puccinia sorghi,Corn (Makai),Fungal (Phaphund),Usually not very harmful. Use foliar fungicides if severe. Plant resistant varieties.
+corn-grey-leaf-spot,Cercospora zeae-maydis,Corn (Makai),Fungal (Phaphund),Practice crop rotation. Minimize crop residues in the field. Use resistant varieties. Apply fungicides if needed.
+corn-healthy,N/A,Corn (Makai),N/A (Sehatmand),The plant is healthy. Maintain it with proper nutrition and watering.
+corn-nothern-leaf-blight,Exserohilum turcicum,Corn (Makai),Fungal (Phaphund),Use resistant hybrids. Keep the field clean. Use fungicides if necessary.
