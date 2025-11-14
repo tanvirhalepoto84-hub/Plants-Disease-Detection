@@ -1,9 +1,1 @@
-import streamlit as st
-from PIL import Image
-from gtts import gTTS
-from deep_translator import GoogleTranslator
-import tempfile
-import asyncio
-import os
-from dotenv import load_dotenv
-import google.generativeai as genai
+
