@@ -1,1 +1,8 @@
 
+streamlit
+Pillow
+edge-tts
+deep-translator
+google-generativeai
+python-dotenv
+asyncio
