@@ -1,10 +1,7 @@
-streamlit
-gtts
-gtts-token
-Pillow
-numpy
-pandas
-openpyxl
-tensorflow==2.10.0
-
-
+import streamlit as st
+from PIL import Image
+from deep_translator import GoogleTranslator
+import base64
+import os
+from dotenv import load_dotenv
+import google.generativeai as genai
