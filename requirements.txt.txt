@@ -1,9 +1,10 @@
 streamlit
 gtts
+gtts-token
 Pillow
 numpy
 pandas
 openpyxl
-requests
 tensorflow==2.10.0
+
 
