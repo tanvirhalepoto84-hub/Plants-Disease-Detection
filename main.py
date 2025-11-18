@@ -1,8 +1,7 @@
 import streamlit as st
 from PIL import Image
-from gtts import gTTS
 from deep_translator import GoogleTranslator
-import tempfile
+import base64
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -106,13 +105,30 @@ elif option == "Use Camera":
         uploaded_file = captured_image
 
 # -----------------------------------------------
-# 🔊 gTTS Function (replaces edge_tts)
+# 🔊 Gemini TTS Function
 # -----------------------------------------------
-def generate_gtts_voice(text, lang_code):
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp:
-        tts = gTTS(text=text, lang=lang_code)
-        tts.save(tmp.name)
-        return tmp.name
+def generate_gemini_voice(text):
+    model = genai.GenerativeModel("gemini-2.5-flash")
+
+    audio_config = {
+        "voice": {
+            "voice_type": "studio",
+            "voice_name": "studio-multilingual"
+        },
+        "audio_format": "mp3"
+    }
+
+    response = model.generate_content(
+        text,
+        generation_config={"audio_config": audio_config}
+    )
+
+    if not hasattr(response, "audio") or not response.audio:
+        return None
+
+    audio_bytes = base64.b64decode(response.audio.data)
+    return audio_bytes
+
 
 # -----------------------------------------------
 # 🌿 Main Functionality
@@ -169,24 +185,20 @@ if uploaded_file is not None:
         if st.button("▶️ Play Voice"):
             st.success(f"🎙️ Speaking in: {voice_lang}")
 
-            try:
-                paragraph = result_text
+            paragraph = result_text
 
-                if voice_lang != "English":
-                    try:
-                        paragraph = GoogleTranslator(source="auto", target=lang_codes[voice_lang]).translate(paragraph)
-                    except Exception:
-                        st.warning("⚠️ Voice translation failed. Using English instead.")
+            if voice_lang != "English":
+                try:
+                    paragraph = GoogleTranslator(source="auto", target=lang_codes[voice_lang]).translate(paragraph)
+                except:
+                    st.warning("⚠️ Voice translation failed. Using English.")
 
-                voice_file = generate_gtts_voice(paragraph, lang_codes[voice_lang])
+            audio_bytes = generate_gemini_voice(paragraph)
 
-                with open(voice_file, "rb") as audio_file:
-                    audio_bytes = audio_file.read()
-
+            if audio_bytes:
                 st.audio(audio_bytes, format="audio/mp3")
-
-            except Exception as e:
-                st.error(f"❌ Could not generate voice: {e}")
+            else:
+                st.error("❌ Could not generate voice. Try again.")
 
 else:
     st.info("📤 Please upload or capture a plant leaf image to begin.")
