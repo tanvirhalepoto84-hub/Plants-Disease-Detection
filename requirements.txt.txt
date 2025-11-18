@@ -1,10 +1,5 @@
-import streamlit as st
-from PIL import Image
-from deep_translator import GoogleTranslator
-import base64
-import os
-from dotenv import load_dotenv
-import google.generativeai as genai
+streamlit
 Pillow
 google-generativeai
 deep-translator
+python-dotenv
