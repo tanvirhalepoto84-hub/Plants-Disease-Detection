@@ -1,9 +1,9 @@
-import streamlit as st
-from PIL import Image
-from gtts import gTTS
-from deep_translator import GoogleTranslator
-import tempfile
-import os
-from dotenv import load_dotenv
-import google.generativeai as genai
+streamlit
+gtts
+Pillow
+numpy
+pandas
+openpyxl
+requests
+tensorflow==2.10.0
 
